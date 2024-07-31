@@ -1,30 +1,37 @@
-sources = {
-   "loader_example.cc",
-   }
+project "TinyGLTF"
+   kind "StaticLib"
+   language "C++"
+   staticruntime "off"
 
--- premake4.lua
-solution "TinyGLTFSolution"
-   configurations { "Release", "Debug" }
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-   if (os.is("windows")) then
-      platforms { "x32", "x64" }
-   else
-      platforms { "native", "x32", "x64" }
-   end
+	files
+	{
+		"tiny_gltf.h",
+		"tiny_gltf.cc",
+		"stb_image.h",
+		"stb_image_write.h"
+	}
 
-   -- A project defines one build target
-   project "tinygltf"
-      kind "ConsoleApp"
-      language "C++"
-      files { sources }
-      flags { "C++11" }
+	filter "system:windows"
+		systemversion "latest"
+		cppdialect "C++17"
 
-      configuration "Debug"
-         defines { "DEBUG" } -- -DDEBUG
-         flags { "Symbols" }
-         targetname "loader_example_tinygltf_debug"
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++17"
 
-      configuration "Release"
-         -- defines { "NDEBUG" } -- -NDEBUG
-         flags { "Symbols", "Optimize" }
-         targetname "loader_example_tinygltf"
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "on"
+
+    filter "configurations:Dist"
+		runtime "Release"
+		optimize "on"
+        symbols "off"
