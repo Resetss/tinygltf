@@ -23,6 +23,7 @@ premake5.tar.gz
 
 #binary directories
 bin/
+bin-int/
 obj/
 out/
 
@@ -77,13 +78,3 @@ tests/issue-261.gltf
 !examples/raytrace/cornellbox_suzanne.obj
 !tests/Makefile
 !tools/windows/premake5.exe
-
-# Directories
-.vs/
-bin/
-bin-int/
-
-# Files
-*.vcxproj
-*.vcxproj.user
-*.vcxproj.filters
